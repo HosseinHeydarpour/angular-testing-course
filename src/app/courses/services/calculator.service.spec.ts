@@ -3,7 +3,10 @@ import { LoggerService } from "./logger.service";
 
 import { TestBed } from "@angular/core/testing";
 
-describe("CalculatorService", () => {
+// We can add x before describe to cancel whole test
+// xdescribe("CalculatorService", () => {
+// fdescribe("CalculatorService", () => { // Focus on only one test
+// describe("CalculatorService", () => {
   let calculator: CalculatorService, loggerSpy: any;
 
   // It will run before each spec we have to it and it will run twice
@@ -55,6 +58,8 @@ describe("CalculatorService", () => {
   });
 
   // SPECIFICATION
+  // We add x to disable the specification
+  // xit("should subtract two numbers", () => {
   it("should subtract two numbers", () => {
     // Test is not ready to get executed we use pending()
     // pending();
