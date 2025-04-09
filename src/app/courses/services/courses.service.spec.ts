@@ -4,9 +4,11 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from "@angular/common/http/testing";
+import { COURSES } from "../../../../server/db-data";
 
 describe("CoursesService", () => {
-  let courses: CoursesService, httpTestingController: HttpTestingController;
+  let coursesService: CoursesService,
+    httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -14,9 +16,25 @@ describe("CoursesService", () => {
       providers: [CoursesService],
     });
 
-    courses = TestBed.get(CoursesService);
+    coursesService = TestBed.get(CoursesService);
     httpTestingController = TestBed.get(HttpTestingController);
   });
 
-  it("should retrieve all courses", () => {});
+  it("should retrieve all courses", () => {
+    coursesService.findAllCourses().subscribe({
+      next: (courses) => {
+        expect(courses).toBeTruthy("No Courses Returned");
+        expect(courses.length).toBe(12, "incorrect number of courses");
+
+        const course = courses.find((course) => course.id == 12);
+
+        expect(course.titles.description).toBe("Angular Testing Course");
+      },
+    });
+
+    const req = httpTestingController.expectOne("/api/courses");
+    expect(req.request.method).toEqual("GET");
+
+    req.flush({ payload: Object.values(COURSES) });
+  });
 });
