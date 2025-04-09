@@ -6,7 +6,7 @@ import { TestBed } from "@angular/core/testing";
 // We can add x before describe to cancel whole test
 // xdescribe("CalculatorService", () => {
 // fdescribe("CalculatorService", () => { // Focus on only one test
-// describe("CalculatorService", () => {
+describe("CalculatorService", () => {
   let calculator: CalculatorService, loggerSpy: any;
 
   // It will run before each spec we have to it and it will run twice
