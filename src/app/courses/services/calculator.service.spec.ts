@@ -2,6 +2,16 @@ import { CalculatorService } from "./calculator.service";
 import { LoggerService } from "./logger.service";
 
 describe("CalculatorService", () => {
+  let calculator: CalculatorService, loggerSpy: any;
+
+  // It will run before each spec we have to it and it will run twice
+  beforeEach(() => {
+    console.log("Calling Before Each");
+
+    loggerSpy = jasmine.createSpyObj("LoggerService", ["log"]);
+    calculator = new CalculatorService(loggerSpy);
+  });
+
   // SPECIFICATION
   it("should add two numbers", () => {
     // Test is not ready to get executed we use pending()
@@ -12,7 +22,6 @@ describe("CalculatorService", () => {
     // not other dependencies
     // const logger = new LoggerService();
     // This is a complete fake implementation of the logger service
-    const logger = jasmine.createSpyObj("LoggerService", ["log"]);
 
     // we cannot pass an empty array like this
     // const logger = jasmine.createSpyObj("LoggerService", []);
@@ -22,13 +31,13 @@ describe("CalculatorService", () => {
 
     // logger.log.and.returnValue()
 
-    const calculator = new CalculatorService(logger);
+    console.log("Add test");
 
     const result = calculator.add(2, 2);
 
     expect(result).toBe(4);
 
-    expect(logger.log).toHaveBeenCalledTimes(1);
+    expect(loggerSpy.log).toHaveBeenCalledTimes(1);
   });
 
   // SPECIFICATION
@@ -38,10 +47,11 @@ describe("CalculatorService", () => {
     // To Simulate a failing text
     // fail();.
 
-    const calculator = new CalculatorService(new LoggerService());
-
+    console.log("Subtract test");
     const result = calculator.subtract(2, 2);
 
     expect(result).toBe(0, "unexpected subtarction result");
+
+    expect(loggerSpy.log).toHaveBeenCalledTimes(1);
   });
 });
