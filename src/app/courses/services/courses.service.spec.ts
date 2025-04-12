@@ -36,5 +36,30 @@ describe("CoursesService", () => {
     expect(req.request.method).toEqual("GET");
 
     req.flush({ payload: Object.values(COURSES) });
+
+    // httpTestingController.verify();
+  });
+
+  it("should return a sinlge course by id", () => {
+    coursesService.findCourseById(12).subscribe({
+      next: (course) => {
+        expect(course).toBeTruthy("No Course Was Found");
+        expect(course.id).toBe(12);
+      },
+    });
+
+    const req = httpTestingController.expectOne("/api/courses/12");
+
+    expect(req.request.method).toBe("GET");
+
+    req.flush(COURSES[12]);
+
+    // // Verifies that no unmatched or unexpected HTTP requests are outstanding
+    // httpTestingController.verify();
+  });
+
+  afterEach(() => {
+    // Verifies that no unmatched or unexpected HTTP requests are outstanding
+    httpTestingController.verify();
   });
 });
